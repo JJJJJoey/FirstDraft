@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "507984676165",
+    "project_id": "firstdraft-a5850",
+    "storage_bucket": "firstdraft-a5850.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507984676165:android:de664aa6923a1cbc84ea2c",
+        "android_client_info": {
+          "package_name": "gr.cityu.firstdraft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507984676165-v27tj57rnclk88rafj9490dpd2fdn9bt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhj0pucyIF0MLnD-g07wtWCB2xpU0o17c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507984676165-v27tj57rnclk88rafj9490dpd2fdn9bt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
