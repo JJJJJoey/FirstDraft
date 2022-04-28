@@ -31,10 +31,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewItems"
         android:layout_width="409dp"
-        android:layout_height="511dp"
+        android:layout_height="507dp"
         android:layout_marginStart="2dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
