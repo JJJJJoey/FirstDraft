@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".AccountActivity">
 
-    <Button
+    <ImageView
         android:id="@+id/buttonAccountSettings"
-        android:layout_width="160dp"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="48dp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:onClick="AccountSettingsIntent"
+        android:src="@drawable/settings_vector"
         android:text="Account settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
