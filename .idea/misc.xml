@@ -5,10 +5,14 @@
       <map>
         <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_account.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_account_settings.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_login_reg.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_ne2w_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_new_item_upload.xml" value="0.25" />
         <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/activity_welcome_page.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/image_card_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/image_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/g_sai/AndroidStudioProjects/FirstDraft/app/src/main/res/layout/image_view.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

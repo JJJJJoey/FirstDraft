@@ -1,12 +1,7 @@
 package gr.cityu.firstdraft;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,14 +11,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 
 
 public class NewItemUploadActivity extends AppCompatActivity {
@@ -43,7 +42,6 @@ public class NewItemUploadActivity extends AppCompatActivity {
     //Firebase Storage
     private StorageReference mStorageRef;
     DatabaseReference mDatabaseRef;
-
 
 
     @Override
@@ -98,7 +96,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
-            mImageView.setImageURI(mImageUri);
+
 
         }
 
@@ -122,6 +120,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
 
 
                             Toast.makeText(NewItemUploadActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+                            /*
                             ItemImageUpload upload = new ItemImageUpload(mEditTextItemTitle.getText().toString().trim(),
                                     taskSnapshot.getUploadSessionUri().toString(),
                                     mEditTextItemDescription.getText().toString(),
@@ -130,6 +129,20 @@ public class NewItemUploadActivity extends AppCompatActivity {
                                     );
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(upload);
+                            */
+                            Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!urlTask.isSuccessful());
+                            Uri downloadUrl = urlTask.getResult();
+
+                            //Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString()); //use if testing...don't need this line.
+                            ItemImageUpload upload = new ItemImageUpload(mEditTextItemTitle.getText().toString().trim(),downloadUrl.toString(),
+                                    mEditTextItemDescription.getText().toString(),
+                                    mEditTextItemCategory.getText().toString(),
+                                    mEditItemTags.getText().toString());
+
+                            String uploadId = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(uploadId).setValue(upload);
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

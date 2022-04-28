@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstDraft">
         <activity
+            android:name=".LoginRegActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewItemUploadActivity"
             android:exported="false" />
         <activity

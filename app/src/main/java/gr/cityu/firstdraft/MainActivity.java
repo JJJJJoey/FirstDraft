@@ -21,4 +21,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
+    public void logRegIntent(View view){
+        Intent intent = new Intent(this, LoginRegActivity.class);
+        startActivity(intent);
+    }
 }
