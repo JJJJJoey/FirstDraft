@@ -42,14 +42,6 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
 
     }
 
-    @NonNull
-    @Override
-    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //inflating the layout and giving the look to each of the rows
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_row,parent,false);
-        return new myViewHolder(view);
-    }
-
     public static class myViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mItemPhoto;
         TextView mItemName,mItemCategory;
@@ -64,5 +56,16 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
             mItemCategory=itemView.findViewById(R.id.TextViewItemCategory);
         }
     }
+
+    @NonNull
+    @Override
+    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //inflating the layout and giving the look to each of the rows
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_row,parent,false);
+
+                return new myViewHolder(view);
+    }
+
+
 
 }

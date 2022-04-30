@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstDraft">
         <activity
+            android:name=".ItemViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewUserActivity"
             android:exported="false" />
         <activity
