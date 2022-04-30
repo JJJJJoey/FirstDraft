@@ -14,8 +14,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="AccountSettingsIntent"
+
         android:src="@drawable/settings_vector"
-        android:text="Account settings"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,23 +31,71 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewItems"
-        android:layout_width="409dp"
-        android:layout_height="507dp"
+        android:layout_width="406dp"
+        android:layout_height="322dp"
         android:layout_marginStart="2dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="92dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="164dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="142dp"
         android:layout_marginBottom="27dp"
         android:text="My Items"
+        android:textColor="@android:color/black"
+        android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewItems"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="28dp"
+        android:onClick="AddNewItemIntent"
+        android:src="@drawable/add_new"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewItems"
+        app:layout_constraintStart_toEndOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="42dp"
+        android:text="TextView"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/textViewUserLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="45dp"
+        android:text="TextView"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

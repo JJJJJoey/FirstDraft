@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -15,8 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -27,14 +24,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class AccountSettingsActivity extends AppCompatActivity {
+public class NewUserActivity extends AppCompatActivity {
 
 
-
-    private Button mButtonApplyChanges;
-    private ImageView mImageViewProfPic;
-    private EditText mEditTextName;
-    private EditText mEditTextLikes;
+    private ImageView mNewImageViewProfPic;
+    private EditText mNewEditTextName;
+    private EditText mNewEditTextLikes;
+    private Button mButtonSave;
 
 
 
@@ -54,12 +50,12 @@ public class AccountSettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_settings);
+        setContentView(R.layout.activity_new_user);
 
-        mButtonApplyChanges = findViewById(R.id.buttonApplyChanges);
-        mImageViewProfPic = findViewById(R.id.imageViewProfPic);
-        mEditTextName = findViewById(R.id.editTextName);
-        mEditTextLikes = findViewById(R.id.editTextLikes);
+        mNewImageViewProfPic = findViewById(R.id.imageButtonPhotoProf);
+        mNewEditTextName = findViewById(R.id.editTextNewName);
+        mNewEditTextLikes = findViewById(R.id.editTextNewLikes);
+        mButtonSave = findViewById(R.id.buttonSave);
 
         //getting current userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
@@ -69,9 +65,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("account photos/"+currentUserID);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("account info/"+currentUserID);
 
-
-
-        mImageViewProfPic.setOnClickListener(new View.OnClickListener() {
+        mNewImageViewProfPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
@@ -79,43 +73,28 @@ public class AccountSettingsActivity extends AppCompatActivity {
             }
         });
 
-        mButtonApplyChanges.setOnClickListener(new View.OnClickListener() {
+        mButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadFile();
+                mainIntent();
 
             }
         });
 
+
+
+
+
+
     }
-    public void newItemIntent(View view){
-        Intent intent= new Intent(this, NewItemUploadActivity.class);
+    public void mainIntent(){
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-
-
-    public void logout (View view){
-        AuthUI.getInstance().signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            logRegIntent();
-                        }else {
-                            Log.e(TAG,"onComplete:", task.getException());
-                        }
-                    }
-                });
-
-
+        finish();
 
     }
 
-    public void logRegIntent(){
-        Intent intent = new Intent(this, LoginRegActivity.class);
-        startActivity(intent);
-    }
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -131,7 +110,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
-            mImageViewProfPic.setImageURI(mImageUri);
+            mNewImageViewProfPic.setImageURI(mImageUri);
 
 
         }
@@ -157,16 +136,16 @@ public class AccountSettingsActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
 
-                            Toast.makeText(AccountSettingsActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(NewUserActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
 
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while (!urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
 
 
-                            UserInfo upload = new UserInfo(mEditTextName.getText().toString().trim(),downloadUrl.toString(),
-                                    mEditTextLikes.getText().toString()
-                                    );
+                            UserInfo upload = new UserInfo(mNewEditTextName.getText().toString().trim(),downloadUrl.toString(),
+                                    mNewEditTextLikes.getText().toString()
+                            );
 
                             //i dont need upload id because the info are under the userID unlike the items that are multiple
                             //for one user
@@ -179,7 +158,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AccountSettingsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewUserActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         } else {
@@ -187,5 +166,4 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }
 
     }
-
 }

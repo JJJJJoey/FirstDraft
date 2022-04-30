@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,6 +45,10 @@ public class NewItemUploadActivity extends AppCompatActivity {
     DatabaseReference mDatabaseRef;
 
 
+    //firebase authorisation for getting the current user
+    private FirebaseAuth mAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +65,14 @@ public class NewItemUploadActivity extends AppCompatActivity {
         mEditTextItemCategory = findViewById(R.id.editTextItemCategory);
         mEditItemTags = findViewById(R.id.editItemTags);
 
+        //getting current userID
+        String currentUserID= FirebaseAuth.getInstance().getUid();
+        Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
+
         //firebase storage and database initialize
-        mStorageRef = FirebaseStorage.getInstance().getReference("item photos");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("item info");
+        mStorageRef = FirebaseStorage.getInstance().getReference("item photos/"+currentUserID);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("item info/ "+currentUserID);
+
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +91,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
             }
         });
 
+
     }
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -96,6 +107,8 @@ public class NewItemUploadActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
+            mImageView.setImageURI(mImageUri);
+
 
 
         }
@@ -120,21 +133,12 @@ public class NewItemUploadActivity extends AppCompatActivity {
 
 
                             Toast.makeText(NewItemUploadActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
-                            /*
-                            ItemImageUpload upload = new ItemImageUpload(mEditTextItemTitle.getText().toString().trim(),
-                                    taskSnapshot.getUploadSessionUri().toString(),
-                                    mEditTextItemDescription.getText().toString(),
-                                    mEditTextItemCategory.getText().toString(),
-                                    mEditItemTags.getText().toString()
-                                    );
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
-                            */
+
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while (!urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
 
-                            //Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString()); //use if testing...don't need this line.
+                            //calling the class
                             ItemImageUpload upload = new ItemImageUpload(mEditTextItemTitle.getText().toString().trim(),downloadUrl.toString(),
                                     mEditTextItemDescription.getText().toString(),
                                     mEditTextItemCategory.getText().toString(),

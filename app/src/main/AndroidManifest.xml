@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstDraft">
         <activity
+            android:name=".NewUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginRegActivity"
             android:exported="false" />
         <activity
@@ -20,9 +23,6 @@
             android:exported="false" />
         <activity
             android:name=".AccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".WelcomeActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

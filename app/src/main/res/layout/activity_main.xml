@@ -6,31 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    //button just for testing
+
     <Button
-        android:id="@+id/buttonLogReg"
-        android:layout_width="209dp"
-        android:layout_height="59dp"
-        android:layout_marginBottom="124dp"
-        android:text="Login or register"
-        android:onClick="logRegIntent"
+        android:id="@+id/buttonAccount"
+        android:layout_width="221dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="44dp"
+        android:onClick="nextActivity"
+        android:text="Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="116dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    //button just for testing
-    <Button
-        android:id="@+id/buttonNextScreen"
-        android:layout_width="206dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="102dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginBottom="28dp"
-        android:text="next Screen"
-
-        android:onClick="nextActivity"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogReg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

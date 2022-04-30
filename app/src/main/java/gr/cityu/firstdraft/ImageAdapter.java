@@ -28,6 +28,7 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ItemImageUpload model) {
+        //assigning values to each of the row in the recycler_view_row layout file
         holder.mItemName.setText(model.getmName());
         holder.mItemCategory.setText(model.getmImageCategory());
 
@@ -44,25 +45,24 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_view,parent,false);
+        //inflating the layout and giving the look to each of the rows
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_row,parent,false);
         return new myViewHolder(view);
     }
 
-    class myViewHolder extends RecyclerView.ViewHolder{
+    public static class myViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mItemPhoto;
         TextView mItemName,mItemCategory;
 
         public myViewHolder(@NonNull View itemView) {
+
+            //taking the view form the recycler_view_row file similar to onCreate method
             super(itemView);
 
-            mItemPhoto=(CircleImageView)itemView.findViewById(R.id.image1);
-            mItemName=(TextView) itemView.findViewById(R.id.TextViewItemName);
-            mItemCategory=(TextView) itemView.findViewById(R.id.TextViewItemCategory);
+            mItemPhoto=itemView.findViewById(R.id.image1);
+            mItemName=itemView.findViewById(R.id.TextViewItemName);
+            mItemCategory=itemView.findViewById(R.id.TextViewItemCategory);
         }
     }
-
-
-
-
 
 }

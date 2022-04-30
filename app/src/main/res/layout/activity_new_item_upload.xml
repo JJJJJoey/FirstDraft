@@ -20,8 +20,8 @@
         android:id="@+id/buttonAddPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="40dp"
         android:text="Add Photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
         android:id="@+id/editTextItemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -76,10 +76,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="18dp"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

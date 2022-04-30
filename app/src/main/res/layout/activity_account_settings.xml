@@ -6,35 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".AccountSettingsActivity">
 
+    <ImageView
+        android:id="@+id/imageViewProfPic"
+        android:layout_width="142dp"
+        android:layout_height="119dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="76dp"
+        android:src="@drawable/add_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="32dp"
+        android:onClick="logout"
+        android:text="Logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonApplyChanges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginBottom="37dp"
+        android:text="Apply Changes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/editTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewProfPic"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageViewProfPic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="361dp"
-        android:layout_height="118dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="152dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
@@ -42,26 +54,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewProfPic" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="351dp"
-        android:layout_height="278dp"
-        android:layout_marginTop="44dp"
+    <EditText
+        android:id="@+id/editTextLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginEnd="150dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Likes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
-    <Button
-        android:id="@+id/buttonNewItem"
-        android:layout_width="344dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="38dp"
-        android:text="Add New item"
-        android:onClick="newItemIntent"
+    <EditText
+        android:id="@+id/editTextLikes2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="153dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Likes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextLikes" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
