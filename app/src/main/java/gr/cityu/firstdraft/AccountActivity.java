@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,11 +22,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity implements RecyclerViewInterface{
     private ImageView mButtonAccountSettings;
 
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
+
+
 
 
     private DatabaseReference mDatabaseRef;
@@ -35,6 +38,11 @@ public class AccountActivity extends AppCompatActivity {
 
     //firebase authorisation for getting the current user
     private FirebaseAuth mAuth;
+
+    //for data tranfer
+    private FirebaseRecyclerOptions<ItemImageUpload> options;
+    private FirebaseRecyclerAdapter<ItemImageUpload, MyViewHolder> adapter;
+
 
 
 
@@ -49,6 +57,9 @@ public class AccountActivity extends AppCompatActivity {
         mTextViewUserName = findViewById(R.id.textViewUserName);
         mTextViewUserLikes = findViewById(R.id.textViewUserLikes);
 
+
+
+
         //getting current userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
 
@@ -61,17 +72,18 @@ public class AccountActivity extends AppCompatActivity {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("/item info/ "+currentUserID),ItemImageUpload.class)
                         .build();
 
-        mAdapter = new ImageAdapter(options);
+        mAdapter = new ImageAdapter(options,this);
         mRecyclerView.setAdapter(mAdapter);
-
-
-
 
         //Show user name
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         //DatabaseReference textRef = mDatabaseRef.child("/account info/").child(currentUserID).child("/mName");
         //DatabaseReference textRef = mDatabaseRef.child("/account info/L8alOuGxvRf98Ia4OH9tzI5hFSv2/-N0uM0rqnyqGQ1pxdgrF/mName");
+
         DatabaseReference nameTextRef = mDatabaseRef.child("/account info/"+currentUserID+"/mName");
+
+
+
         nameTextRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -86,7 +98,6 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         //Show user Likes
-
         DatabaseReference likesTextRef = mDatabaseRef.child("/account info/"+currentUserID+"/mLikes");
         likesTextRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -100,6 +111,8 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 
@@ -126,4 +139,15 @@ public class AccountActivity extends AppCompatActivity {
         Intent intent = new Intent(this,AccountSettingsActivity.class);
         startActivity(intent);
     }
+
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent=new Intent(this,ItemViewActivity.class);
+        //intent.putExtra("Example items",pp);
+
+        startActivity(intent);
+    }
+
+
 }

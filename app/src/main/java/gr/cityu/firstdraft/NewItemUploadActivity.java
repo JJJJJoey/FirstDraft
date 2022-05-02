@@ -36,6 +36,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
     ImageView mImageView;
 
 
+
     //for image upload
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
