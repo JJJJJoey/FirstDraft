@@ -1,19 +1,19 @@
 package gr.cityu.firstdraft;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,24 +27,10 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
 
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
-
-
-
-
     private DatabaseReference mDatabaseRef;
 
     private TextView mTextViewUserName;
     private TextView mTextViewUserLikes;
-
-    //firebase authorisation for getting the current user
-    private FirebaseAuth mAuth;
-
-    //for data tranfer
-    private FirebaseRecyclerOptions<ItemImageUpload> options;
-    private FirebaseRecyclerAdapter<ItemImageUpload, MyViewHolder> adapter;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +44,11 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
         mTextViewUserLikes = findViewById(R.id.textViewUserLikes);
 
 
-
-
         //getting current userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
 
         //just for testing
-        Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
 
         //Recycler View
         FirebaseRecyclerOptions<ItemImageUpload> options=
@@ -72,17 +56,14 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("/item info/ "+currentUserID),ItemImageUpload.class)
                         .build();
 
+
+
         mAdapter = new ImageAdapter(options,this);
         mRecyclerView.setAdapter(mAdapter);
 
         //Show user name
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-        //DatabaseReference textRef = mDatabaseRef.child("/account info/").child(currentUserID).child("/mName");
-        //DatabaseReference textRef = mDatabaseRef.child("/account info/L8alOuGxvRf98Ia4OH9tzI5hFSv2/-N0uM0rqnyqGQ1pxdgrF/mName");
-
         DatabaseReference nameTextRef = mDatabaseRef.child("/account info/"+currentUserID+"/mName");
-
-
 
         nameTextRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -111,9 +92,6 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
                 }
             }
         });
-
-
-
     }
 
     @Override
@@ -122,11 +100,11 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
         mAdapter.startListening();
     }
 
-    @Override
+    /*@Override
     protected void onStop() {
         super.onStop();
         mAdapter.stopListening();
-    }
+    }*/
 
     //new item intent
     public void AddNewItemIntent(View view){
@@ -141,13 +119,19 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
     }
 
 
-    @Override
-    public void onItemClick(int position) {
-        Intent intent=new Intent(this,ItemViewActivity.class);
-        //intent.putExtra("Example items",pp);
 
+    @Override
+    public void onItemClick(String id, int position) {
+        //String id = documentSnapshot.getId();
+        Intent intent=new Intent(this,ItemViewActivity.class);
+        intent.putExtra("position",position);
+        intent.putExtra("id",id);
+        //intent.putExtra("id",mDatabaseRef.getKey());
+        //String id= mDatabaseRef.get(position).getKey();
+
+        Log.d(TAG, "position accountA: " + position);
+        Log.d(TAG, "id accountA: " + id);
         startActivity(intent);
     }
-
 
 }

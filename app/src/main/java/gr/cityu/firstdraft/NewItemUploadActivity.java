@@ -43,7 +43,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
 
     //Firebase Storage
     private StorageReference mStorageRef;
-    DatabaseReference mDatabaseRef;
+    DatabaseReference mDatabaseRef, mDatabaseRefAll;
 
 
     //firebase authorisation for getting the current user
@@ -74,21 +74,21 @@ public class NewItemUploadActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("item photos/"+currentUserID);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("item info/ "+currentUserID);
 
+        //second tree that all users will have access
+        mDatabaseRefAll = FirebaseDatabase.getInstance().getReference("item info all");
+
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
-
             }
         });
 
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 uploadFile();
-
             }
         });
 
@@ -109,9 +109,6 @@ public class NewItemUploadActivity extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
             mImageView.setImageURI(mImageUri);
-
-
-
         }
 
     }
@@ -145,8 +142,12 @@ public class NewItemUploadActivity extends AppCompatActivity {
                                     mEditTextItemCategory.getText().toString(),
                                     mEditItemTags.getText().toString());
 
+                            //==================================================================================================================================
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(upload);
+
+                            //Second saveing database so all users have access
+                            mDatabaseRefAll.child(uploadId).setValue(upload);
 
                         }
                     })

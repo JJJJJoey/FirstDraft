@@ -1,5 +1,8 @@
 package gr.cityu.firstdraft;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,22 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageAdapter.myViewHolder>{
 
-    //variable to hold the recyclerviewinterface
+    //variable to hold the interface
     private final RecyclerViewInterface recyclerViewInterface;
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-
-    //variable for the firebase list maybe not needed
-    private FirebaseRecyclerOptions<ItemImageUpload> mList;
+    private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
 
     public ImageAdapter(@NonNull FirebaseRecyclerOptions<ItemImageUpload> options, RecyclerViewInterface recyclerViewInterface) {
         super(options);
@@ -34,16 +38,12 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
 
     }
 
-
-
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ItemImageUpload model) {
-
 
         //assigning values to each of the row in the recycler_view_row layout file
         holder.mItemName.setText(model.getmName());
         holder.mItemCategory.setText(model.getmImageCategory());
-
 
         Glide.with(holder.mItemPhoto.getContext())
                 .load(model.getmImageUrl())
@@ -52,39 +52,69 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.mItemPhoto);
 
+
     }
 
     public static class myViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mItemPhoto;
         TextView mItemName,mItemCategory;
 
-
         //initialize view for data transfer
         View view;
-
 
         public myViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
 
             //taking the view form the recycler_view_row file similar to onCreate method
             super(itemView);
 
-            //initialize view for data transfer
-            view = itemView;
-
             mItemPhoto=itemView.findViewById(R.id.image1);
             mItemName=itemView.findViewById(R.id.TextViewItemName);
             mItemCategory=itemView.findViewById(R.id.TextViewItemCategory);
 
+
+            //====
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            String currentUserID= FirebaseAuth.getInstance().getUid();
+            String id;
+            Query query = databaseReference.child("/item info/ "+currentUserID);
+            DataSnapshot dataSnapshot;
+            //its filling out the array everytime
+
+            ArrayList<String> posKeyList = new ArrayList<>();
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                        String id = ds.getKey();
+                        posKeyList.add(id);
+                        //System.out.println("array: "+posKeyList);
+                        //System.out.println("iiiiiiddd is "+id);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage());
+                }
+            };
+            query.addListenerForSingleValueEvent(valueEventListener);
+
+
             //attaching onClickListener to the itemView
             itemView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
-                    if (recyclerViewInterface != null){
-                        int pos = getAdapterPosition();
+                    if (recyclerViewInterface != null ){
+                        int pos = getAbsoluteAdapterPosition();
+                        String id = posKeyList.get(pos);
+
                         if (pos != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemClick(pos);
+                            recyclerViewInterface.onItemClick(id, pos);
 
                         }
+                        System.out.println("iiiiiiddd is "+id);
+
                     }
                 }
             });
@@ -99,7 +129,4 @@ public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageA
 
                 return new myViewHolder(view, recyclerViewInterface);
     }
-
-
-
 }
