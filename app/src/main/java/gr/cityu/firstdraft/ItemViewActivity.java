@@ -31,6 +31,9 @@ public class ItemViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
 
+        //next line hides the action bar
+        getSupportActionBar().hide();
+
         mItemNameVTextView = findViewById(R.id.textViewItemVName);
         mTextViewItemVDesc = findViewById(R.id.TextViewItemVDesc);
         mImageViewItemView = findViewById(R.id.imageViewItemView);
@@ -78,4 +81,5 @@ public class ItemViewActivity extends AppCompatActivity {
         //Log.d(TAG,"user i: "+currentUserID);
 
     }
+
 }

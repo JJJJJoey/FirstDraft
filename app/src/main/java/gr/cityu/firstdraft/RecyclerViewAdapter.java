@@ -26,20 +26,20 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ImageAdapter extends FirebaseRecyclerAdapter<ItemImageUpload,ImageAdapter.myViewHolder>{
+public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<ItemUploadModel, RecyclerViewAdapter.myViewHolder>{
 
     //variable to hold the interface
     private final RecyclerViewInterface recyclerViewInterface;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
 
-    public ImageAdapter(@NonNull FirebaseRecyclerOptions<ItemImageUpload> options, RecyclerViewInterface recyclerViewInterface) {
+    public RecyclerViewAdapter(@NonNull FirebaseRecyclerOptions<ItemUploadModel> options, RecyclerViewInterface recyclerViewInterface) {
         super(options);
         this.recyclerViewInterface = recyclerViewInterface;
 
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ItemImageUpload model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ItemUploadModel model) {
 
         //assigning values to each of the row in the recycler_view_row layout file
         holder.mItemName.setText(model.getmName());

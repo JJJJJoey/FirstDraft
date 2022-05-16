@@ -48,19 +48,19 @@
         android:id="@+id/buttonEditItem"
         android:layout_width="143dp"
         android:layout_height="61dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="60dp"
         android:text="Edit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewItemVDesc" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonDeleteItem"
         android:layout_width="143dp"
         android:layout_height="61dp"
-        android:layout_marginTop="116dp"
-        android:layout_marginEnd="37dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="60dp"
         android:text="Delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewItemVDesc" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

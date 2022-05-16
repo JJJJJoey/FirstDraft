@@ -15,12 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,9 +34,10 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
 
     private Button mButtonApplyChanges;
-    private ImageView mImageViewProfPic;
+    private ImageView mImageViewProfPic ;
     private EditText mEditTextName;
     private EditText mEditTextLikes;
+
 
 
 
@@ -56,6 +59,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_settings);
 
+        //next line hides the action bar
+        getSupportActionBar().hide();
+
         mButtonApplyChanges = findViewById(R.id.buttonApplyChanges);
         mImageViewProfPic = findViewById(R.id.imageViewProfPic);
         mEditTextName = findViewById(R.id.editTextName);
@@ -63,11 +69,50 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         //getting current userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
-        Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
+
+        //toast to test if the current user is correct
+        //Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
+
+
+
+
 
         //firebase storage and database initialize
         mStorageRef = FirebaseStorage.getInstance().getReference("account photos/"+currentUserID);
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("account info/"+currentUserID);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference mImageRef = mDatabaseRef.child("/account info/"+currentUserID+"/mImageUrl");
+        DatabaseReference mNameRef = mDatabaseRef.child("/account info/"+currentUserID+"/mName");
+       // String url = "https://firebasestorage.googleapis.com/v0/b/firstdraft-a5850.appspot.com/o/account%20photos%2FW9Tbt9FVjBYJNbpgKRxQcSGn9Zf1%2F1651333004232.png?alt=media&token=bfff1de4-c487-4798-bcb4-fdd98c98bfd6";
+
+
+        mImageRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot snapshot = task.getResult();
+                    String url = snapshot.getValue(String.class);
+                    Glide.with(getApplicationContext()).load(url).into(mImageViewProfPic);
+                    //Toast.makeText(AccountSettingsActivity.this,"image ref is: "+url,Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                }
+            }
+        });
+
+        mNameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot snapshot = task.getResult();
+                    String text = snapshot.getValue(String.class);
+                    mEditTextName.setText(text);
+
+                } else {
+                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                }
+            }
+        });
 
 
 
@@ -87,11 +132,18 @@ public class AccountSettingsActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
     public void newItemIntent(View view){
         Intent intent= new Intent(this, NewItemUploadActivity.class);
         startActivity(intent);
     }
+
+
+
+
+
 
 
 
@@ -164,7 +216,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
                             Uri downloadUrl = urlTask.getResult();
 
 
-                            UserInfo upload = new UserInfo(mEditTextName.getText().toString().trim(),downloadUrl.toString(),
+                            UserInfoModel upload = new UserInfoModel(mEditTextName.getText().toString().trim(),downloadUrl.toString(),
                                     mEditTextLikes.getText().toString()
                                     );
 

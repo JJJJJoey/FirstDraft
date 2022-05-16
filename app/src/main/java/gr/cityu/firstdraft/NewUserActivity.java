@@ -52,6 +52,9 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
+        //next line hides the action bar
+        getSupportActionBar().hide();
+
         mNewImageViewProfPic = findViewById(R.id.imageButtonPhotoProf);
         mNewEditTextName = findViewById(R.id.editTextNewName);
         mNewEditTextLikes = findViewById(R.id.editTextNewLikes);
@@ -143,7 +146,7 @@ public class NewUserActivity extends AppCompatActivity {
                             Uri downloadUrl = urlTask.getResult();
 
 
-                            UserInfo upload = new UserInfo(mNewEditTextName.getText().toString().trim(),downloadUrl.toString(),
+                            UserInfoModel upload = new UserInfoModel(mNewEditTextName.getText().toString().trim(),downloadUrl.toString(),
                                     mNewEditTextLikes.getText().toString()
                             );
 

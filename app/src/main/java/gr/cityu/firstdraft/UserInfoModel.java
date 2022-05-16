@@ -1,15 +1,15 @@
 package gr.cityu.firstdraft;
 
-public class UserInfo {
+public class UserInfoModel {
 
     private String mName;
     private String mLikes;
     private String mImageUrl;
     private String mUserId;
 
-    UserInfo(){}
+    UserInfoModel(){}
 
-    public UserInfo(String mName,String mImageUrl, String mLikes) {
+    public UserInfoModel(String mName, String mImageUrl, String mLikes) {
         this.mName = mName;
         this.mLikes = mLikes;
         this.mImageUrl = mImageUrl;

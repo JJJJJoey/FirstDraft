@@ -55,6 +55,9 @@ public class NewItemUploadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item_upload);
 
+        //next line hides the action bar
+        getSupportActionBar().hide();
+
         mEditTextItemTitle = findViewById(R.id.editTextItemTitle);
 
         mButtonUpload = findViewById(R.id.buttonUpload);
@@ -137,7 +140,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
                             Uri downloadUrl = urlTask.getResult();
 
                             //calling the class
-                            ItemImageUpload upload = new ItemImageUpload(mEditTextItemTitle.getText().toString().trim(),downloadUrl.toString(),
+                            ItemUploadModel upload = new ItemUploadModel(mEditTextItemTitle.getText().toString().trim(),downloadUrl.toString(),
                                     mEditTextItemDescription.getText().toString(),
                                     mEditTextItemCategory.getText().toString(),
                                     mEditItemTags.getText().toString());
@@ -146,7 +149,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(upload);
 
-                            //Second saveing database so all users have access
+                            //Second saving database so all users have access
                             mDatabaseRefAll.child(uploadId).setValue(upload);
 
                         }

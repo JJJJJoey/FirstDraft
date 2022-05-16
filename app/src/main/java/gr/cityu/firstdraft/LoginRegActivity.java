@@ -31,6 +31,9 @@ public class LoginRegActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_reg);
         mButtonLogout = findViewById(R.id.buttonLogout);
 
+        //next line hides the action bar
+        getSupportActionBar().hide();
+
 
         //checking if the user is currently singed in
         // if there is a user signed in we go back to the main activity

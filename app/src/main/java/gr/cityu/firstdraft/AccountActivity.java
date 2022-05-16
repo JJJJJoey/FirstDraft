@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,10 +24,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AccountActivity extends AppCompatActivity implements RecyclerViewInterface{
-    private ImageView mButtonAccountSettings;
+    private ImageView mButtonAccountSettings,mImageViewProfPic;
 
     private RecyclerView mRecyclerView;
-    private ImageAdapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
     private DatabaseReference mDatabaseRef;
 
     private TextView mTextViewUserName;
@@ -36,34 +37,45 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+        //next line hides the action bar
+        getSupportActionBar().hide();
         mButtonAccountSettings = findViewById(R.id.buttonAccountSettings);
 
         mRecyclerView = findViewById(R.id.recyclerViewItems);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTextViewUserName = findViewById(R.id.textViewUserName);
         mTextViewUserLikes = findViewById(R.id.textViewUserLikes);
+        mImageViewProfPic=findViewById(R.id.imageViewProfPic);
 
 
         //getting current userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
 
-        //just for testing
+        //using toast to test if the user ID os correct
         //Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
 
         //Recycler View
-        FirebaseRecyclerOptions<ItemImageUpload> options=
-                new FirebaseRecyclerOptions.Builder<ItemImageUpload>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("/item info/ "+currentUserID),ItemImageUpload.class)
+        FirebaseRecyclerOptions<ItemUploadModel> options=
+                new FirebaseRecyclerOptions.Builder<ItemUploadModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("/item info/ "+currentUserID), ItemUploadModel.class)
                         .build();
 
 
-
-        mAdapter = new ImageAdapter(options,this);
+        //creating a new adapter instance
+        mAdapter = new RecyclerViewAdapter(options,this);
         mRecyclerView.setAdapter(mAdapter);
 
         //Show user name
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        //lines for testing
+        //DatabaseReference nameTextRef = mDatabaseRef.child("/account info/"+currentUserID+"/mName/");
+        //DatabaseReference nameTextRef = mDatabaseRef.child("/account info/W9Tbt9FVjBYJNbpgKRxQcSGn9Zf1/mName");
         DatabaseReference nameTextRef = mDatabaseRef.child("/account info/"+currentUserID+"/mName");
+
+        //toast to test is the image reference works
+        //Toast.makeText(AccountActivity.this,"image ref is: "+nameTextRef,Toast.LENGTH_LONG).show();
+
 
         nameTextRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -72,6 +84,7 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
                     DataSnapshot snapshot = task.getResult();
                     String text = snapshot.getValue(String.class);
                     mTextViewUserName.setText(text);
+
                 } else {
                     Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
                 }
@@ -92,7 +105,24 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
                 }
             }
         });
+
+        DatabaseReference mImageRef = mDatabaseRef.child("/account info/"+currentUserID+"/mImageUrl");
+        mImageRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot snapshot = task.getResult();
+                    String url = snapshot.getValue(String.class);
+                    Glide.with(getApplicationContext()).load(url).into(mImageViewProfPic);
+                    //Toast.makeText(AccountSettingsActivity.this,"image ref is: "+url,Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                }
+            }
+        });
     }
+
+
 
     @Override
     protected void onStart() {
@@ -115,6 +145,7 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
     //account settings intent
     public void AccountSettingsIntent(View view){
         Intent intent = new Intent(this,AccountSettingsActivity.class);
+
         startActivity(intent);
     }
 

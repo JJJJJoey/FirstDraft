@@ -22,21 +22,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     private FirebaseAuth mAuth;
 
     private DatabaseReference mDatabaseRef;
-    private ImageAdapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
 
     private RecyclerView mRecyclerViewMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //next line hides the action bar
+        getSupportActionBar().hide();
 
         setContentView(R.layout.activity_main);
         mButtonNextScreen = findViewById(R.id.buttonAccount);
         mRecyclerViewMain = findViewById(R.id.recyclerViewMain);
         mRecyclerViewMain.setLayoutManager(new LinearLayoutManager(this));
 
-        //checking if the user is singed in , if not the login register
-        //activity will start
+        //checking if the user is singed in , if not the login register activity starts, asking th user to log in or create a new account
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             Intent intent = new Intent(this,LoginRegActivity.class);
             startActivity(intent);
@@ -56,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
 
         //Recycler View
-        FirebaseRecyclerOptions<ItemImageUpload> options=
-                new FirebaseRecyclerOptions.Builder<ItemImageUpload>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("item info all"),ItemImageUpload.class)
+        FirebaseRecyclerOptions<ItemUploadModel> options=
+                new FirebaseRecyclerOptions.Builder<ItemUploadModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("item info all"), ItemUploadModel.class)
                         .build();
 
-        mAdapter = new ImageAdapter(options,this);
+        mAdapter = new RecyclerViewAdapter(options,this);
         mRecyclerViewMain.setAdapter(mAdapter);
 
 

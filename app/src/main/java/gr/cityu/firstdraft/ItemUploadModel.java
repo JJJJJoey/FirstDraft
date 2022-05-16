@@ -1,6 +1,6 @@
 package gr.cityu.firstdraft;
 
-public class ItemImageUpload {
+public class ItemUploadModel {
     private String mName;
     private String mImageUrl;
     private String mImageDescription;
@@ -8,9 +8,9 @@ public class ItemImageUpload {
     private String mImageTags;
 
 
-    ItemImageUpload(){}
+    ItemUploadModel(){}
 
-    public ItemImageUpload(String mName, String mImageUrl, String mImageDescription, String mImageCategory, String mImageTags) {
+    public ItemUploadModel(String mName, String mImageUrl, String mImageDescription, String mImageCategory, String mImageTags) {
         this.mName = mName;
         this.mImageUrl = mImageUrl;
         this.mImageDescription = mImageDescription;
