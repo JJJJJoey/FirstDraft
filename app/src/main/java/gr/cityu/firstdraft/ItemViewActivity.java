@@ -2,14 +2,17 @@ package gr.cityu.firstdraft;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +51,9 @@ public class ItemViewActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         //DatabaseReference itemDataPath = databaseReference.child("/account info/"+currentUserID+"/"+id);
         DatabaseReference itemDataPathName = databaseReference.child("/item info/ "+currentUserID+"/"+id+"/mName");
+
+
+        //setting the name of the item
         itemDataPathName.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -61,7 +67,7 @@ public class ItemViewActivity extends AppCompatActivity {
                 }
             }
         });
-
+        //setting the description of the item
         DatabaseReference itemDataPathCategory = databaseReference.child("/item info/ "+currentUserID+"/"+id+"/mImageDescription");
         itemDataPathCategory.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -77,9 +83,31 @@ public class ItemViewActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference mImageRef = databaseReference.child("/item info/ "+currentUserID+"/"+id+"/mImageUrl");
+        //setting the photo of the item
+        mImageRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot snapshot = task.getResult();
+                    String url = snapshot.getValue(String.class);
+                    Glide.with(getApplicationContext()).load(url).into(mImageViewItemView);
+                    //Toast.makeText(AccountSettingsActivity.this,"image ref is: "+url,Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                }
+            }
+        });
+
+
+        //logs for testing
         //Log.d(TAG,"path name: "+itemDataPath2);
         //Log.d(TAG,"user i: "+currentUserID);
 
+    }
+    public void EditItemIntent(View view){
+        Intent intent = new Intent(this,EditItemActivity.class);
+        startActivity(intent);
     }
 
 }

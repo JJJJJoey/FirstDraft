@@ -1,12 +1,15 @@
 package gr.cityu.firstdraft;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,12 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewInterface{
+public class MainActivity extends AppCompatActivity implements RecycleViewInterfaceMain{
     private Button mButtonNextScreen;
     private FirebaseAuth mAuth;
 
     private DatabaseReference mDatabaseRef;
-    private RecyclerViewAdapter mAdapter;
+    private RecyclerViewAdapterMain mAdapter;
 
     private RecyclerView mRecyclerViewMain;
     @Override
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         setContentView(R.layout.activity_main);
         //next line hides the action bar
         getSupportActionBar().hide();
+        //disblaes dark (night) mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setContentView(R.layout.activity_main);
         mButtonNextScreen = findViewById(R.id.buttonAccount);
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         //getting userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
-        Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"the current user is: "+currentUserID,Toast.LENGTH_LONG).show();
 
 
         //Recycler View
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("item info all"), ItemUploadModel.class)
                         .build();
 
-        mAdapter = new RecyclerViewAdapter(options,this);
+        mAdapter = new RecyclerViewAdapterMain(options,this);
         mRecyclerViewMain.setAdapter(mAdapter);
 
 
@@ -90,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     @Override
     public void onItemClick(String id, int position) {
+        //String id = documentSnapshot.getId();
+        Intent intent=new Intent(this,ItemViewAllActivity.class);
+        intent.putExtra("position",position);
+        intent.putExtra("id",id);
 
+        Log.d(TAG, "position accountA: " + position);
+        Log.d(TAG, "id accountA: " + id);
+        startActivity(intent);
     }
 }

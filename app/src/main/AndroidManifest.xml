@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstDraft">
         <activity
+            android:name=".ItemViewAllActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".ItemViewActivity"
             android:exported="false" />
         <activity

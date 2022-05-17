@@ -45,24 +45,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewItemVName" />
 
     <Button
-        android:id="@+id/buttonEditItem"
-        android:layout_width="143dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="60dp"
-        android:text="Edit"
-        android:onClick="EditItemIntent"
+        android:id="@+id/buttonRequest"
+        android:layout_width="204dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginBottom="116dp"
+        android:text="Request"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="OnClick" />
 
-    <Button
-        android:id="@+id/buttonDeleteItem"
-        android:layout_width="143dp"
-        android:layout_height="61dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="60dp"
-        android:text="Delete"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     //Firebase Storage
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef, mDatabaseRef2;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
@@ -79,10 +79,13 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         //firebase storage and database initialize
         mStorageRef = FirebaseStorage.getInstance().getReference("account photos/"+currentUserID);
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRef2 = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference mImageRef = mDatabaseRef.child("/account info/"+currentUserID+"/mImageUrl");
-        DatabaseReference mNameRef = mDatabaseRef.child("/account info/"+currentUserID+"/mName");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("account info/"+currentUserID);
+
+        DatabaseReference mImageRef = mDatabaseRef2.child("/account info/"+currentUserID+"/mImageUrl");
+        DatabaseReference mNameRef = mDatabaseRef2.child("/account info/"+currentUserID+"/mName");
+        DatabaseReference mLikesRef = mDatabaseRef2.child("/account info/"+currentUserID+"/mLikes");
        // String url = "https://firebasestorage.googleapis.com/v0/b/firstdraft-a5850.appspot.com/o/account%20photos%2FW9Tbt9FVjBYJNbpgKRxQcSGn9Zf1%2F1651333004232.png?alt=media&token=bfff1de4-c487-4798-bcb4-fdd98c98bfd6";
 
 
@@ -107,6 +110,20 @@ public class AccountSettingsActivity extends AppCompatActivity {
                     DataSnapshot snapshot = task.getResult();
                     String text = snapshot.getValue(String.class);
                     mEditTextName.setText(text);
+
+                } else {
+                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                }
+            }
+        });
+
+        mLikesRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot snapshot = task.getResult();
+                    String text = snapshot.getValue(String.class);
+                    mEditTextLikes.setText(text);
 
                 } else {
                     Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
