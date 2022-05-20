@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +25,17 @@ public class ItemViewActivity extends AppCompatActivity {
 
    TextView mItemNameVTextView, mTextViewItemVDesc;
    ImageView mImageViewItemView;
+   Button mButtonEditItem;
    int position;
+   //String id = getIntent().getStringExtra("id");
+
    String id;
+
+
    DatabaseReference databaseReference;
    String currentUserID= FirebaseAuth.getInstance().getUid();
+    //getting the id of the data snapshot to showcase it in the next activity
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +48,26 @@ public class ItemViewActivity extends AppCompatActivity {
         mItemNameVTextView = findViewById(R.id.textViewItemVName);
         mTextViewItemVDesc = findViewById(R.id.TextViewItemVDesc);
         mImageViewItemView = findViewById(R.id.imageViewItemView);
+        mButtonEditItem = findViewById(R.id.buttonEditItem);
 
-        //getting the position of the data snapshot to showcase it in the next activity
         String id = getIntent().getStringExtra("id");
+        //Toast.makeText(ItemViewActivity.this, "1 the id of the item is: "+id,Toast.LENGTH_SHORT).show();
 
+
+
+
+
+        mButtonEditItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = getIntent().getStringExtra("id");
+                //Toast.makeText(ItemViewActivity.this, "2 the id of the item is: "+id,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), EditItemActivity.class);
+                intent.putExtra("id", id);
+
+                startActivity(intent);
+            }
+        });
 
         //for testing
        //System.out.println("view position"+position);
@@ -99,7 +123,6 @@ public class ItemViewActivity extends AppCompatActivity {
             }
         });
 
-
         //logs for testing
         //Log.d(TAG,"path name: "+itemDataPath2);
         //Log.d(TAG,"user i: "+currentUserID);
@@ -107,7 +130,11 @@ public class ItemViewActivity extends AppCompatActivity {
     }
     public void EditItemIntent(View view){
         Intent intent = new Intent(this,EditItemActivity.class);
+        //intent.putExtra("id",id);
+        //Toast.makeText(ItemViewActivity.this, "2 the id of the item is: "+id,Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
+
+
 
 }

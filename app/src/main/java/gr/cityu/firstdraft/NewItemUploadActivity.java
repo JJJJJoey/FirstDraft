@@ -92,6 +92,8 @@ public class NewItemUploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 uploadFile();
+                Intent intent= new Intent(NewItemUploadActivity.this,AccountActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -164,5 +166,9 @@ public class NewItemUploadActivity extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
 
+    }
+    public void nextActivity(View view){
+        Intent intent = new Intent(this, AccountActivity.class);
+        startActivity(intent);
     }
 }

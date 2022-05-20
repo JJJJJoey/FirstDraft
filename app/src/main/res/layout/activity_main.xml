@@ -18,41 +18,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/buttonAccount"
-        android:layout_width="222dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="102dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="28dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewProfPic"
+        android:layout_width="109dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="16dp"
         android:onClick="nextActivity"
-        android:text="Account"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="325dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Search"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMain"
-        android:layout_width="409dp"
-        android:layout_height="490dp"
+        android:layout_width="411dp"
+        android:layout_height="555dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="76dp"
         android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="409dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="112dp"
+        android:queryHint="Search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

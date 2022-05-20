@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<ItemUploadModel
 
         //assigning values to each of the row in the recycler_view_row layout file
         holder.mItemName.setText(model.getmName());
-        holder.mItemCategory.setText(model.getmImageCategory());
+        //holder.mItemDescription.setText(model.getmImageCategory());
 
         Glide.with(holder.mItemPhoto.getContext())
                 .load(model.getmImageUrl())
@@ -57,7 +57,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<ItemUploadModel
 
     public static class myViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mItemPhoto;
-        TextView mItemName,mItemCategory;
+        TextView mItemName,mItemDescription;
 
 
         public myViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
@@ -67,7 +67,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<ItemUploadModel
 
             mItemPhoto=itemView.findViewById(R.id.image1);
             mItemName=itemView.findViewById(R.id.TextViewItemName);
-            mItemCategory=itemView.findViewById(R.id.TextViewItemCategory);
+            //mItemDescription=itemView.findViewById(R.id.TextViewItemDesc);
 
 
             //====

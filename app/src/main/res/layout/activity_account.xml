@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AccountActivity">
 
-    <ImageView
-        android:id="@+id/buttonAccountSettings"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:onClick="AccountSettingsIntent"
-
-        android:src="@drawable/settings_vector"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -31,7 +17,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewItems"
-        android:layout_width="406dp"
+        android:layout_width="415dp"
         android:layout_height="322dp"
         android:layout_marginStart="2dp"
         android:layout_marginBottom="16dp"
@@ -41,10 +27,26 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="202dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="142dp"
+        android:layout_marginBottom="27dp"
+        android:text="My Requests"
+        android:textColor="@android:color/black"
+        android:textSize="30dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewItems"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.558" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="164dp"
         android:layout_height="51dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="142dp"
         android:layout_marginBottom="27dp"
         android:text="My Items"
@@ -53,24 +55,25 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewItems"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.965" />
 
     <ImageView
-        android:layout_width="61dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="32dp"
         android:onClick="AddNewItemIntent"
         android:src="@drawable/add_new"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewItems"
         app:layout_constraintStart_toEndOf="@+id/textView" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewProfPic"
-        android:layout_width="90dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="109dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:onClick="AccountSettingsIntent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -79,8 +82,8 @@
         android:id="@+id/textViewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
         android:text="TextView"
         android:textSize="20dp"
         app:layout_constraintStart_toEndOf="@+id/imageViewProfPic"
@@ -88,10 +91,10 @@
 
     <TextView
         android:id="@+id/textViewUserLikes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="21dp"
+        android:layout_width="167dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
         android:text="TextView"
         android:textSize="20dp"
         app:layout_constraintStart_toEndOf="@+id/imageViewProfPic"

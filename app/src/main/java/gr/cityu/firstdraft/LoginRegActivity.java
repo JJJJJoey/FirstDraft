@@ -29,7 +29,7 @@ public class LoginRegActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_reg);
-        mButtonLogout = findViewById(R.id.buttonLogout);
+        //mButtonLogout = findViewById(R.id.buttonLogout);
 
         //next line hides the action bar
         getSupportActionBar().hide();

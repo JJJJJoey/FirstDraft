@@ -40,7 +40,7 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
 
         //next line hides the action bar
         getSupportActionBar().hide();
-        mButtonAccountSettings = findViewById(R.id.buttonAccountSettings);
+
 
         mRecyclerView = findViewById(R.id.recyclerViewItems);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

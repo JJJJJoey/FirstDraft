@@ -89,6 +89,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
        // String url = "https://firebasestorage.googleapis.com/v0/b/firstdraft-a5850.appspot.com/o/account%20photos%2FW9Tbt9FVjBYJNbpgKRxQcSGn9Zf1%2F1651333004232.png?alt=media&token=bfff1de4-c487-4798-bcb4-fdd98c98bfd6";
 
 
+        //showcasing the profile photo of the user
         mImageRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -103,6 +104,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
             }
         });
 
+
+        //showcasing the name of the user
         mNameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -117,6 +120,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
             }
         });
 
+        //showcasing the likes of the user
         mLikesRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
