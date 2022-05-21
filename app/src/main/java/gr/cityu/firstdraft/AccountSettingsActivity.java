@@ -10,6 +10,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,11 +33,15 @@ import com.google.firebase.storage.UploadTask;
 public class AccountSettingsActivity extends AppCompatActivity {
 
 
-
+    //initialising the components
     private Button mButtonApplyChanges;
     private ImageView mImageViewProfPic ;
     private EditText mEditTextName;
     private EditText mEditTextLikes;
+
+    //setting up the progress bar
+    private ProgressBar progressBar;
+   // private int progress = 0;
 
 
 
@@ -66,6 +71,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         mImageViewProfPic = findViewById(R.id.imageViewProfPic);
         mEditTextName = findViewById(R.id.editTextName);
         mEditTextLikes = findViewById(R.id.editTextLikes);
+
+        //making the progress bar
+        //progressBar = findViewById(R.id.progress_bar);
 
         //getting current userID
         String currentUserID= FirebaseAuth.getInstance().getUid();
@@ -156,6 +164,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
 
     }
+
     public void newItemIntent(View view){
         Intent intent= new Intent(this, NewItemUploadActivity.class);
         startActivity(intent);

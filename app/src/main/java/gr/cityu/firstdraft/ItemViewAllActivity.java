@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 public class ItemViewAllActivity extends AppCompatActivity {
     TextView mItemNameVTextView, mTextViewItemVDesc;
     ImageView mImageViewItemView;
-    private ArrayList<Request> request;
+    private ArrayList<RequestModel> request;
     private ArrayList listAll;
     private ArrayList listUsers;
 
@@ -38,6 +37,8 @@ public class ItemViewAllActivity extends AppCompatActivity {
     String id;
     DatabaseReference databaseReference;
     String currentUserID= FirebaseAuth.getInstance().getUid();
+    String ownersId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class ItemViewAllActivity extends AppCompatActivity {
 
         //next line hides the action bar
         getSupportActionBar().hide();
+
 
         mItemNameVTextView = findViewById(R.id.textViewItemVName);
         mTextViewItemVDesc = findViewById(R.id.TextViewItemVDesc);
@@ -59,7 +61,7 @@ public class ItemViewAllActivity extends AppCompatActivity {
 
         //for testing
         //System.out.println("view position"+position);
-        Log.d(TAG, "view id: " + id);
+       // Log.d(TAG, "view id: " + id);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         //DatabaseReference itemDataPath = databaseReference.child("/account info/"+currentUserID+"/"+id);
         DatabaseReference itemDataPathName = databaseReference.child("/item info all/"+id+"/mName");
@@ -116,7 +118,7 @@ public class ItemViewAllActivity extends AppCompatActivity {
         //Log.d(TAG,"user i: "+currentUserID);
 
 
-        String currentUserID= FirebaseAuth.getInstance().getUid();
+
         //items of current user
         Query queryUsers = databaseReference.child("/item info/ "+currentUserID);
 
@@ -129,7 +131,6 @@ public class ItemViewAllActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String id = ds.getKey();
                     listUsers.add(id);
-
                 }
             }
             @Override
@@ -152,7 +153,7 @@ public class ItemViewAllActivity extends AppCompatActivity {
                     String id = ds.getKey();
                     listAll.add(id);
 
-                    Toast.makeText(ItemViewAllActivity.this,"hello"+listAll.size(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ItemViewAllActivity.this,"hello"+listAll.size(),Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -162,8 +163,44 @@ public class ItemViewAllActivity extends AppCompatActivity {
         };
         queryAll.addListenerForSingleValueEvent(valueEventListener);
 
+        DatabaseReference ownersIdRef = databaseReference.child("/item info all/"+id+"/userId");
+
+        DatabaseReference requests =FirebaseDatabase.getInstance().getReference("requests");
+
 
         mButtonRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //get item's owner id
+                //get current user's id
+                //get item's id
+                //send the request
+
+                ownersIdRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //getting the owners id
+                            DataSnapshot snapshot = task.getResult();
+                            String ownersId = snapshot.getValue(String.class);
+
+                            //inserting the request info by using the request model
+                            //which is sender, receiver, item id
+                            RequestModel upload = new RequestModel(ownersId,currentUserID,id);
+                            String uploadId = requests.push().getKey();
+                            requests.child(uploadId).setValue(upload);
+
+                        } else {
+                            Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+       /* mButtonRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                // Toast.makeText(ItemViewAllActivity.this,"hello",Toast.LENGTH_LONG).show();
@@ -187,10 +224,11 @@ public class ItemViewAllActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
 
     }
+
 
 
 

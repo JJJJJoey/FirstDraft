@@ -1,5 +1,6 @@
 package gr.cityu.firstdraft;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -34,6 +35,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
     EditText mEditTextItemCategory;
     EditText mEditItemTags;
     ImageView mImageView;
+    ProgressDialog progressDialog;
 
 
 
@@ -48,6 +50,9 @@ public class NewItemUploadActivity extends AppCompatActivity {
 
     //firebase authorisation for getting the current user
     private FirebaseAuth mAuth;
+    //getting current userID
+    String currentUserID= FirebaseAuth.getInstance().getUid();
+
 
 
     @Override
@@ -94,6 +99,7 @@ public class NewItemUploadActivity extends AppCompatActivity {
                 uploadFile();
                 Intent intent= new Intent(NewItemUploadActivity.this,AccountActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -141,11 +147,14 @@ public class NewItemUploadActivity extends AppCompatActivity {
                             while (!urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
 
-                            //calling the class
-                            ItemUploadModel upload = new ItemUploadModel(mEditTextItemTitle.getText().toString().trim(),downloadUrl.toString(),
+                            //adding the info in the database
+                            ItemUploadModel upload = new ItemUploadModel(mEditTextItemTitle.getText().toString().trim(),
+                                    downloadUrl.toString(),
                                     mEditTextItemDescription.getText().toString(),
                                     mEditTextItemCategory.getText().toString(),
-                                    mEditItemTags.getText().toString());
+                                    mEditItemTags.getText().toString(),
+                                    currentUserID);
+
 
                             //==================================================================================================================================
                             String uploadId = mDatabaseRef.push().getKey();
@@ -160,15 +169,26 @@ public class NewItemUploadActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(NewItemUploadActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         }
-                    });
+
+
+                        //setting up the progress bar
+                    })/*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    double prog = 100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount();
+                    progressDialog.setMessage("uploading"+(int)prog+"%");
+                }
+            })*/;
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
 
     }
     public void nextActivity(View view){
-        Intent intent = new Intent(this, AccountActivity.class);
+        Intent intent = new Intent(NewItemUploadActivity.this, AccountActivity.class);
         startActivity(intent);
+
     }
 }

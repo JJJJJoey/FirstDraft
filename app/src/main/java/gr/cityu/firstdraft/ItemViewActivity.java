@@ -2,6 +2,7 @@ package gr.cityu.firstdraft;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +28,7 @@ public class ItemViewActivity extends AppCompatActivity {
 
    TextView mItemNameVTextView, mTextViewItemVDesc;
    ImageView mImageViewItemView;
-   Button mButtonEditItem;
+   Button mButtonEditItem, mButtonDeleteItem;
    int position;
    //String id = getIntent().getStringExtra("id");
 
@@ -49,6 +52,7 @@ public class ItemViewActivity extends AppCompatActivity {
         mTextViewItemVDesc = findViewById(R.id.TextViewItemVDesc);
         mImageViewItemView = findViewById(R.id.imageViewItemView);
         mButtonEditItem = findViewById(R.id.buttonEditItem);
+        mButtonDeleteItem = findViewById(R.id.buttonDeleteItem);
 
         String id = getIntent().getStringExtra("id");
         //Toast.makeText(ItemViewActivity.this, "1 the id of the item is: "+id,Toast.LENGTH_SHORT).show();
@@ -126,6 +130,43 @@ public class ItemViewActivity extends AppCompatActivity {
         //logs for testing
         //Log.d(TAG,"path name: "+itemDataPath2);
         //Log.d(TAG,"user i: "+currentUserID);
+
+        mButtonDeleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(mItemNameVTextView.getContext());
+                builder.setTitle("are you sure you want to delete this item?");
+                builder.setPositiveButton("delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        FirebaseDatabase.getInstance().getReference().child("/item info/ "+currentUserID+"/"+id)
+                        .removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("/item info all/"+id)
+                                .removeValue();
+                        Intent intent = new Intent(ItemViewActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        //toast for testing
+                        Toast.makeText(mItemNameVTextView.getContext(), "deleted",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                });
+
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                        //toast for testing
+                        Toast.makeText(mItemNameVTextView.getContext(), "cancelled",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+            }
+        });
 
     }
     public void EditItemIntent(View view){

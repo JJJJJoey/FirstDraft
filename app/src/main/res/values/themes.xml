@@ -21,6 +21,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_circle</item>
+    </style>
+
     <style name="Theme.FirstDraft.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FirstDraft.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

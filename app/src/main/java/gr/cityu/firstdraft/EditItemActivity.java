@@ -39,9 +39,10 @@ public class EditItemActivity extends AppCompatActivity {
     private Button mButtonApplyChanges;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
-    DatabaseReference mDatabaseRef;
+    DatabaseReference mDatabaseRef,mDatabaseRefSave;
     private StorageReference mStorageRef;
     String id;
+    String currentUserID= FirebaseAuth.getInstance().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +68,16 @@ public class EditItemActivity extends AppCompatActivity {
         String currentUserID= FirebaseAuth.getInstance().getUid();
 
         mStorageRef = FirebaseStorage.getInstance().getReference("item photos/"+currentUserID);
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRefSave = FirebaseDatabase.getInstance().getReference("item info/ "+currentUserID);
         //line for testing the right path
+        mDatabaseRef= FirebaseDatabase.getInstance().getReference();
         DatabaseReference mNameRef = mDatabaseRef.child("/item info/ "+currentUserID+"/"+id+"/mName");
 
-        DatabaseReference mImageRef = mDatabaseRef.child("/item info/"+currentUserID+"/"+id+"/mImageUrl");
+        DatabaseReference mImageRef = mDatabaseRef.child("/item info/ "+currentUserID+"/"+id+"/mImageUrl");
         //DatabaseReference mNameRef = mDatabaseRef.child("/item info/"+currentUserID+"/mName");
         DatabaseReference mDescriptionRef = mDatabaseRef.child("/item info/ "+currentUserID+"/"+id+"/mImageDescription");
-        DatabaseReference mCategoryRef = mDatabaseRef.child("/item info/"+currentUserID+"/"+id+"/mImageCategory");
-        DatabaseReference mTagsRef = mDatabaseRef.child("/item info/"+currentUserID+"/"+id+"/mImageTags");
+        DatabaseReference mCategoryRef = mDatabaseRef.child("/item info/ "+currentUserID+"/"+id+"/mImageCategory");
+        DatabaseReference mTagsRef = mDatabaseRef.child("/item info/ "+currentUserID+"/"+id+"/mImageTags");
 
         //line for testing
         // String url = "https://firebasestorage.googleapis.com/v0/b/firstdraft-a5850.appspot.com/o/account%20photos%2FW9Tbt9FVjBYJNbpgKRxQcSGn9Zf1%2F1651333004232.png?alt=media&token=bfff1de4-c487-4798-bcb4-fdd98c98bfd6";
@@ -132,6 +134,20 @@ public class EditItemActivity extends AppCompatActivity {
                     DataSnapshot snapshot = task.getResult();
                     String text = snapshot.getValue(String.class);
                     mEditTextItemCategory.setText(text);
+
+                } else {
+                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                }
+            }
+        });
+
+        mTagsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot snapshot = task.getResult();
+                    String text = snapshot.getValue(String.class);
+                    mEditTextImageTags.setText(text);
 
                 } else {
                     Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
@@ -207,13 +223,13 @@ public class EditItemActivity extends AppCompatActivity {
 
 
                             ItemUploadModel upload = new ItemUploadModel(mEditTextItemName.getText().toString().trim(),downloadUrl.toString(),
-                                    mEditTextItemCategory.getText().toString(),mEditTextItemDescription.getText().toString(),mEditTextImageTags.getText().toString()
+                            mEditTextItemDescription.getText().toString(),mEditTextItemCategory.getText().toString(),mEditTextImageTags.getText().toString(),currentUserID
                             );
 
                             //i dont need upload id because the info are under the userID unlike the items that are multiple
                             //for one user
                             //String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.setValue(upload);
+                            mDatabaseRefSave.setValue(upload);
                             //mDatabaseRef.child(uploadId).setValue(upload);
 
                         }

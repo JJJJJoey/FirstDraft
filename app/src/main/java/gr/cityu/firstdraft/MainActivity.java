@@ -49,11 +49,9 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         getSupportActionBar().hide();
         //disables dark (night) mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
-
         setContentView(R.layout.activity_main);
 
-        //connecting the componentss with the xml file
+        //connecting the components with the xml file
         mImageViewProfPic = findViewById(R.id.imageViewProfPic);
         mRecyclerViewMain = findViewById(R.id.recyclerViewMain);
         mSearchView = findViewById(R.id.searchView);
@@ -160,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         recyclerViewAdapterMain = new RecyclerViewAdapterMain(options,this);
         recyclerViewAdapterMain.startListening();
         mRecyclerViewMain.setAdapter(recyclerViewAdapterMain);
-
     }
+
+
 }

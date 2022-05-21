@@ -140,13 +140,15 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
     public void AddNewItemIntent(View view){
         Intent intent = new Intent(this,NewItemUploadActivity.class);
         startActivity(intent);
+        finish();
     }
 
     //account settings intent
     public void AccountSettingsIntent(View view){
-        Intent intent = new Intent(this,AccountSettingsActivity.class);
+        Intent intent = new Intent(AccountActivity.this,AccountSettingsActivity.class);
 
         startActivity(intent);
+
     }
 
 
@@ -162,6 +164,11 @@ public class AccountActivity extends AppCompatActivity implements RecyclerViewIn
 
         Log.d(TAG, "position accountA: " + position);
         Log.d(TAG, "id accountA: " + id);
+        startActivity(intent);
+        finish();
+    }
+    public void RequestsIntent(View view){
+        Intent intent = new Intent(AccountActivity.this, RequestsActivity.class);
         startActivity(intent);
     }
 
